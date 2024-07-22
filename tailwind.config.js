@@ -1,14 +1,15 @@
+/** @type {import('tailwindcss').Config} */
+
 module.exports = {
     content: [
-        "./App.{js,jsx,ts,tsx}",
         "./app/**/*.{js,jsx,ts,tsx}",
+        "./app/*.tsx",
         "./components/**/*.{js,jsx,ts,tsx}",
     ],
     theme: {
         extend: {
             fontFamily: {
-                regular: ['SF-Pro-Regular', 'sans-serif'],
-                medium: ['SF-Pro-Italic', 'sans-serif'],
+                rmono: ['Roboto-Mono', 'sans-serif'],
             }
         },
     },
