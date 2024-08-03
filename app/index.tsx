@@ -1,19 +1,14 @@
-import { Text, View, StyleSheet } from "react-native";
-import {Link} from "expo-router";
+import { Text, View } from "react-native";
+import { Link } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 
 export default function Index() {
-    const styles = StyleSheet.create({
-        container: {
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-        },
-    });
 
     return (
-        <View style={styles.container}>
-          <Text>Edit my bitch ass. Hello World!</Text>
-            <Link href="/profile">Go to Profile</Link>
-        </View>
+            <View className="flex-1 items-center justify-center bg-amber-50">
+                <Text className="text-4xl font-pbold">First App</Text>
+                <StatusBar style={"auto"}/>
+                <Link href="/sign-up" className="font-pextralight">Go to Auth</Link>
+            </View>
   );
 }
