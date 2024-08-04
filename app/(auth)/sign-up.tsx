@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, ScrollView, SafeAreaView } from 'react-native';
 import FormField from "@/components/FormField";
-import RadioButton from "@/components/RadioButton";
-import Button from "@/components/Button";
-import { validateEmail, validatePhoneNumber, validatePassword } from '@/utils/validationUtils';
+import RadioButton from "@/components/Button/RadioButton";
+import Button from "@/components/Button/Button";
+import { validateEmail, validatePhoneNumber, validatePassword } from '@/lib/utils';
 import FormFeedbackModal from "@/components/FormFeedbackModal";
 import { Colors } from "@/constants/Colors";
 import {Link} from "expo-router";
