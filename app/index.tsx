@@ -8,7 +8,7 @@ export default function Index() {
             <View className="flex-1 items-center justify-center bg-amber-50">
                 <Text className="text-4xl font-pbold">First App</Text>
                 <StatusBar style={"auto"}/>
-                <Link href="/sign-up" className="font-pextralight">Go to Auth</Link>
+                <Link href="/sign-in" className="font-pextralight">Go to Auth</Link>
             </View>
   );
 }

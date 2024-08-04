@@ -1,7 +1,7 @@
 import React from 'react';
-import { Text, TouchableOpacity, TouchableOpacityProps, ActivityIndicator } from "react-native";
+import { Text, TouchableOpacity, TouchableOpacityProps, ActivityIndicator, StyleSheet } from 'react-native';
 
-type ButtonVariant = 'primary' | 'secondary' | 'outline';
+type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'transparent';
 type ButtonSize = 'small' | 'medium' | 'large';
 
 interface ButtonProps extends Omit<TouchableOpacityProps, 'children'> {
@@ -17,31 +17,40 @@ const defaultColors = {
     primary: 'blue-500',
     secondary: 'gray-500',
     outline: 'blue-500',
+    transparent: 'transparent'
 };
 
-const getVariantStyle = (variant: ButtonVariant, color: string): string => {
+const getVariantStyle = (variant: ButtonVariant, color: string, style: any) => {
     switch (variant) {
         case 'primary':
-            return `bg-${color}`;
+            style.backgroundColor = color;
+            break;
         case 'secondary':
-            return `bg-${color}`;
+            style.backgroundColor = color;
+            break;
         case 'outline':
-            return `bg-transparent border border-${color}`;
-        default:
-            return `bg-${color}`;
+            style.borderColor = color;
+            style.borderWidth = 1;
+            break;
+        case 'transparent':
+            style.backgroundColor = 'transparent';
+            break;
     }
+    return style;
 };
 
-const getTextStyle = (variant: ButtonVariant, color: string): string => {
+const getTextStyle = (variant: ButtonVariant, color: string, style: any) => {
     switch (variant) {
         case 'primary':
         case 'secondary':
-            return 'text-white font-bold';
+            style.color = 'white';
+            break;
         case 'outline':
-            return `text-${color} font-bold`;
-        default:
-            return `text-${color} font-bold`;
+        case 'transparent':
+            style.color = color;
+            break;
     }
+    return style;
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -63,11 +72,15 @@ export default function Button({
     const baseStyle = "rounded-lg flex items-center justify-center";
     const buttonColor = color || defaultColors[variant];
 
-    const buttonStyle = `${baseStyle} ${getVariantStyle(variant, buttonColor)} ${sizeStyles[size]} ${fullWidth ? 'w-full' : ''} ${className}`;
-    const textStyle = `text-center ${getTextStyle(variant, buttonColor)}`;
+    let buttonStyle = `${baseStyle} ${sizeStyles[size]} ${fullWidth ? 'w-full' : ''} ${className}`;
+    let textStyle = "text-center font-bold";
+
+    const dynamicButtonStyle = getVariantStyle(variant, buttonColor, {});
+    const dynamicTextStyle = getTextStyle(variant, buttonColor, {});
 
     return (
         <TouchableOpacity
+            style={dynamicButtonStyle}
             className={buttonStyle}
             disabled={loading}
             {...props}
@@ -75,7 +88,7 @@ export default function Button({
             {loading ? (
                 <ActivityIndicator color={variant === 'primary' || variant === 'secondary' ? 'white' : buttonColor} />
             ) : (
-                <Text className={textStyle}>
+                <Text style={dynamicTextStyle} className={textStyle}>
                     {text}
                 </Text>
             )}

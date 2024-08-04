@@ -6,19 +6,22 @@ interface RadioButtonProps {
     value: string;
     selected: boolean;
     handleRadioButtonPress: (value: string) => void;
+    color?: string;
     otherStyles?: string;
 }
 
-const RadioButton: React.FC<RadioButtonProps> = ({ label, value, selected, handleRadioButtonPress, otherStyles }) => {
+
+const RadioButton: React.FC<RadioButtonProps> = ({ label, value, selected, handleRadioButtonPress, color, otherStyles  }) => {
     return (
         <TouchableOpacity
             className={`flex-row space-x-2 ${otherStyles}`}
             onPress={() => handleRadioButtonPress(value)}
         >
             <View
-                className={`w-5 h-5 rounded-full border-2 border-gray-400 flex items-center justify-center ${selected ? 'border-blue-500' : ''}`}
+                className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selected ? '' : 'border-gray-400'}`}
+                style={selected ? { borderColor: color } : {}}
             >
-                {selected && <View className="w-3 h-3 rounded-full bg-blue-500" />}
+                {selected && <View className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />}
             </View>
             <Text className="text-black">{label}</Text>
         </TouchableOpacity>

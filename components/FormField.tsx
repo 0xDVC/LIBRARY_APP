@@ -24,7 +24,7 @@ export default function FormField({ title, icon, placeholder, otherStyles, handl
                     {title}
                 </Text>
             )}
-            <View className="flex-row items-center border border-gray-100 rounded-md p-3 bg-white">
+            <View className="flex-row items-center border border-gray-100 rounded-md p-3">
                 {icon && (
                     <Ionicons
                         name={icon}

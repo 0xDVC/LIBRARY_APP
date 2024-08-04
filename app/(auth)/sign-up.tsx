@@ -5,6 +5,8 @@ import RadioButton from "@/components/RadioButton";
 import Button from "@/components/Button";
 import { validateEmail, validatePhoneNumber, validatePassword } from '@/utils/validationUtils';
 import FormFeedbackModal from "@/components/FormFeedbackModal";
+import { Colors } from "@/constants/Colors";
+import {Link} from "expo-router";
 
 export default function SignUp() {
     const [form, setForm] = React.useState({
@@ -119,7 +121,7 @@ export default function SignUp() {
     };
 
     return (
-        <SafeAreaView className="h-full bg-white">
+        <SafeAreaView className="h-full" style={{backgroundColor: Colors.light.background}}>
             <ScrollView>
                 <View className="w-full px-4 my-6 justify-center h-full">
                     <Text className="font-pbold text-center text-4xl mt-[35px]">
@@ -151,7 +153,6 @@ export default function SignUp() {
                         handleChangeText={(name) => handleChangeText('name', name)}
                         otherStyles="mt-4"
                     />
-
                     <Text className="text-gray-650 font-pextralight mt-4">Gender</Text>
                     <View className="flex-row justify-around w-full mt-2">
                         <RadioButton
@@ -159,6 +160,7 @@ export default function SignUp() {
                             value="male"
                             selected={form.gender === 'male'}
                             handleRadioButtonPress={handleRadioButtonPress}
+                            color={Colors.light.primary}
                             otherStyles="mt-2"
                         />
                         <RadioButton
@@ -166,6 +168,7 @@ export default function SignUp() {
                             value="female"
                             selected={form.gender === 'female'}
                             handleRadioButtonPress={handleRadioButtonPress}
+                            color={Colors.light.primary}
                             otherStyles="mt-2"
                         />
                         <RadioButton
@@ -173,6 +176,7 @@ export default function SignUp() {
                             value="other"
                             selected={form.gender === 'other'}
                             handleRadioButtonPress={handleRadioButtonPress}
+                            color={Colors.light.primary}
                             otherStyles="mt-2"
                         />
                     </View>
@@ -204,13 +208,16 @@ export default function SignUp() {
                             loading={isSubmitting}
                             variant="primary"
                             size="large"
+                            color={Colors.light.primary}
                             fullWidth
                         />
                     </View>
                     <View className="mt-4 justify-center items-center">
-                        <Text>
+                        <Text className="font-pregular">
                             Already have an account?{' '}
-                            <Text className="text-blue-500">Sign In</Text>
+                            <Text style={{color: Colors.light.primary}}>
+                                <Link href="/sign-in" className="font-pmedium">Sign In</Link>
+                            </Text>
                         </Text>
                     </View>
                 </View>
