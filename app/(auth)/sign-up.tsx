@@ -74,6 +74,7 @@ export default function SignUp() {
     //
     //     // Proceed with sign up logic
     // };
+
     const handleSignUp = () => {
         const { email, phoneNumber, password, confirmPassword } = form;
         const isEmail = email.includes('@');
@@ -108,11 +109,22 @@ export default function SignUp() {
 
         showModal('Sign up successful!', 'success');
     };
+
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+    const handlePress = async () => {
+        setIsSubmitting(true);
+        handleSignUp();
+        setIsSubmitting(false);
+    };
+
     return (
         <SafeAreaView className="h-full bg-white">
             <ScrollView>
                 <View className="h-full w-full px-4 my-6 justify-center min-h-[85vh]">
-                    <Text className="font-pbold text-center text-4xl">Sign Up</Text>
+                    <Text className="font-pbold text-center text-4xl">
+                        Sign Up
+                    </Text>
                     <Text className="font-pregular text-center mt-2">
                         Create a new account quickly and easily to get started
                     </Text>
@@ -185,13 +197,16 @@ export default function SignUp() {
                         secureTextEntry
                     />
 
-                    <Button
-                        text="Sign Up"
-                        onPress={handleSignUp}
-                        variant="primary"
-                        size="large"
-                        fullWidth
-                    />
+                    <View className="mt-10">
+                        <Button
+                            text="Sign Up"
+                            onPress={handlePress}
+                            loading={isSubmitting}
+                            variant="primary"
+                            size="large"
+                            fullWidth
+                        />
+                    </View>
                 </View>
             </ScrollView>
             <FormFeedbackModal

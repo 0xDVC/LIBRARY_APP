@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableOpacity, TouchableOpacityProps } from "react-native";
+import { Text, TouchableOpacity, TouchableOpacityProps, ActivityIndicator } from "react-native";
 
 type ButtonVariant = 'primary' | 'secondary' | 'outline';
 type ButtonSize = 'small' | 'medium' | 'large';
@@ -10,6 +10,7 @@ interface ButtonProps extends Omit<TouchableOpacityProps, 'children'> {
     size?: ButtonSize;
     fullWidth?: boolean;
     color?: string;
+    loading?: boolean;
 }
 
 const defaultColors = {
@@ -55,6 +56,7 @@ export default function Button({
                                    size = 'medium',
                                    fullWidth = false,
                                    color,
+                                   loading = false,
                                    className = '',
                                    ...props
                                }: ButtonProps): React.ReactElement {
@@ -67,11 +69,16 @@ export default function Button({
     return (
         <TouchableOpacity
             className={buttonStyle}
+            disabled={loading}
             {...props}
         >
-            <Text className={textStyle}>
-                {text}
-            </Text>
+            {loading ? (
+                <ActivityIndicator color={variant === 'primary' || variant === 'secondary' ? 'white' : buttonColor} />
+            ) : (
+                <Text className={textStyle}>
+                    {text}
+                </Text>
+            )}
         </TouchableOpacity>
     );
 }
