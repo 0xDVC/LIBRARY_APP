@@ -121,11 +121,11 @@ export default function SignUp() {
     return (
         <SafeAreaView className="h-full bg-white">
             <ScrollView>
-                <View className="h-full w-full px-4 my-6 justify-center min-h-[85vh]">
-                    <Text className="font-pbold text-center text-4xl">
+                <View className="w-full px-4 my-6 justify-center h-full">
+                    <Text className="font-pbold text-center text-4xl mt-[35px]">
                         Sign Up
                     </Text>
-                    <Text className="font-pregular text-center mt-2">
+                    <Text className="font-pregular text-center mt-4">
                         Create a new account quickly and easily to get started
                     </Text>
                     <FormField
@@ -177,27 +177,27 @@ export default function SignUp() {
                         />
                     </View>
 
-                    <FormField
-                        title="Password"
-                        icon="lock-closed-outline"
-                        placeholder=" Enter Password"
-                        value={form.password}
-                        handleChangeText={(password) => handleChangeText('password', password)}
-                        otherStyles="mt-4"
-                        secureTextEntry
-                    />
+                    {/*<FormField*/}
+                    {/*    title="Password"*/}
+                    {/*    icon="lock-closed-outline"*/}
+                    {/*    placeholder=" Enter Password"*/}
+                    {/*    value={form.password}*/}
+                    {/*    handleChangeText={(password) => handleChangeText('password', password)}*/}
+                    {/*    otherStyles="mt-4"*/}
+                    {/*    secureTextEntry*/}
+                    {/*/>*/}
 
-                    <FormField
-                        title="Confirm Password"
-                        icon="lock-closed-outline"
-                        placeholder=" Re-Enter Password"
-                        value={form.confirmPassword}
-                        handleChangeText={(confirmPassword) => handleChangeText('confirmPassword', confirmPassword)}
-                        otherStyles="mt-4"
-                        secureTextEntry
-                    />
+                    {/*<FormField*/}
+                    {/*    title="Confirm Password"*/}
+                    {/*    icon="lock-closed-outline"*/}
+                    {/*    placeholder=" Re-Enter Password"*/}
+                    {/*    value={form.confirmPassword}*/}
+                    {/*    handleChangeText={(confirmPassword) => handleChangeText('confirmPassword', confirmPassword)}*/}
+                    {/*    otherStyles="mt-4"*/}
+                    {/*    secureTextEntry*/}
+                    {/*/>*/}
 
-                    <View className="mt-10">
+                    <View className="mt-20">
                         <Button
                             text="Sign Up"
                             onPress={handlePress}
@@ -206,6 +206,12 @@ export default function SignUp() {
                             size="large"
                             fullWidth
                         />
+                    </View>
+                    <View className="mt-4 justify-center items-center">
+                        <Text>
+                            Already have an account?{' '}
+                            <Text className="text-blue-500">Sign In</Text>
+                        </Text>
                     </View>
                 </View>
             </ScrollView>
