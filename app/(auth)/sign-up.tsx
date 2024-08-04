@@ -1,7 +1,8 @@
 import React from 'react';
-import {View, Text, ScrollView, SafeAreaView, Alert, Button, TouchableOpacity} from 'react-native';
+import { View, Text, ScrollView, SafeAreaView } from 'react-native';
 import FormField from "@/components/FormField";
 import RadioButton from "@/components/RadioButton";
+import Button from "@/components/Button";
 import { validateEmail, validatePhoneNumber, validatePassword } from '@/utils/validationUtils';
 import FormFeedbackModal from "@/components/FormFeedbackModal";
 
@@ -105,9 +106,7 @@ export default function SignUp() {
             return;
         }
 
-        // If all validations pass, show success message
         showModal('Sign up successful!', 'success');
-        // Proceed with sign up logic
     };
     return (
         <SafeAreaView className="h-full bg-white">
@@ -186,12 +185,13 @@ export default function SignUp() {
                         secureTextEntry
                     />
 
-                    <TouchableOpacity
-                        className="bg-blue-500 py-3 px-4 rounded-lg mt-6"
+                    <Button
+                        text="Sign Up"
                         onPress={handleSignUp}
-                    >
-                        <Text className="text-white font-bold text-center">Sign Up</Text>
-                    </TouchableOpacity>
+                        variant="primary"
+                        size="large"
+                        fullWidth
+                    />
                 </View>
             </ScrollView>
             <FormFeedbackModal
