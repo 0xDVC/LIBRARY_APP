@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
-import { View, Text, ScrollView, SafeAreaView } from 'react-native';
+import {View, Text, ScrollView, SafeAreaView, TouchableOpacity} from 'react-native';
 import FormField from "@/components/FormField";
-import Button from "@/components/Button";
-import { validateEmail, validatePhoneNumber } from '@/utils/validationUtils';
+import Button from "@/components/Button/Button";
+import { validateEmail, validatePhoneNumber } from '@/lib/utils';
 import FormFeedbackModal from "@/components/FormFeedbackModal";
 import { Colors } from "@/constants/Colors";
 import {Link} from "expo-router";
 import Checkbox from "@/components/Checkbox";
+import SocialLoginButton from "@/components/Button/SocialLoginButton";
 
 export default function SignIn() {
     const [form, setForm] = React.useState({
@@ -69,6 +70,16 @@ export default function SignIn() {
         setIsSubmitting(false);
     };
 
+    const handleGoogleLogin = () => {
+        // Handle Google login logic
+        console.log('Google login pressed');
+    };
+
+    const handleAppleLogin = () => {
+        // Handle Apple login logic
+        console.log('Apple login pressed');
+    };
+
     return (
         <SafeAreaView className="h-full" style={{backgroundColor: Colors.light.background}}>
             <ScrollView>
@@ -103,7 +114,7 @@ export default function SignIn() {
 
 
 
-                    <View className="mt-20">
+                    <View className="mt-10">
                         <Button
                             text="Sign In"
                             onPress={handlePress}
@@ -114,11 +125,33 @@ export default function SignIn() {
                             fullWidth
                         />
                     </View>
-                    <View className="mt-4 justify-center items-center">
+
+                    {/* Divider with "or" */}
+                    <View className="flex-row items-center mt-10">
+                        <View className="flex-1 h-px bg-gray-300" />
+                        <Text className="mx-4 text-gray-500 font-pmedium">or</Text>
+                        <View className="flex-1 h-px bg-gray-300" />
+                    </View>
+
+                    {/* Alternate login buttons */}
+                    <View className="flex-row justify-evenly mt-6">
+                        <SocialLoginButton
+                            provider="google"
+                            onPress={handleGoogleLogin}
+                            color={Colors.light.primary}
+                        />
+                        <SocialLoginButton
+                            provider="apple"
+                            onPress={handleAppleLogin}
+                            color="black"
+                        />
+                    </View>
+
+                    <View className="mt-16 justify-center items-center">
                         <Text className="font-pregular">
                             Don't have an account?{' '}
                             <Text style={{color: Colors.light.primary}}>
-                                <Link href="/sign-up" className="font-pmedium">Sign In</Link>
+                                <Link href="/sign-up" className="font-pmedium">Sign Up</Link>
                             </Text>
                         </Text>
                     </View>
