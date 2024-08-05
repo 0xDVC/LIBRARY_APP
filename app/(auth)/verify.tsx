@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import OTPEntry from "@/components/OTPEntry";
-import {SafeAreaView, View, Text, ScrollView} from "react-native";
+import { SafeAreaView, View, Text, ScrollView } from "react-native";
 import { Colors } from "@/constants/Colors";
 import CountdownTimer from "@/components/Countdown";
 import Button from "@/components/Button/Button";
