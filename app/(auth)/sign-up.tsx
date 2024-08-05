@@ -6,7 +6,7 @@ import Button from "@/components/Button/Button";
 import { validateEmail, validatePhoneNumber, validatePassword } from '@/lib/utils';
 import FormFeedbackModal from "@/components/FormFeedbackModal";
 import { Colors } from "@/constants/Colors";
-import {Link} from "expo-router";
+import { Link } from "expo-router";
 
 export default function SignUp() {
     const [form, setForm] = React.useState({

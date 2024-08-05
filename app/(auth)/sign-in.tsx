@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import {View, Text, ScrollView, SafeAreaView, TouchableOpacity} from 'react-native';
+import { View, Text, ScrollView, SafeAreaView } from 'react-native';
 import FormField from "@/components/FormField";
 import Button from "@/components/Button/Button";
 import { validateEmail, validatePhoneNumber } from '@/lib/utils';
 import FormFeedbackModal from "@/components/FormFeedbackModal";
 import { Colors } from "@/constants/Colors";
-import {Link} from "expo-router";
+import { Link } from "expo-router";
 import Checkbox from "@/components/Checkbox";
 import SocialLoginButton from "@/components/Button/SocialLoginButton";
 
