@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { View, Text, ScrollView, SafeAreaView } from 'react-native';
 import FormField from "@/components/FormField";
 import Button from "@/components/Button/Button";
@@ -8,12 +8,14 @@ import { Colors } from "@/constants/Colors";
 import { Link } from "expo-router";
 import Checkbox from "@/components/Checkbox";
 import SocialLoginButton from "@/components/Button/SocialLoginButton";
+import { FontAwesome } from '@expo/vector-icons';
 
 export default function SignIn() {
     const [form, setForm] = React.useState({
         email: "",
         phoneNumber: "",
     });
+
 
     const [isChecked, setIsChecked] = useState(false);
 
@@ -62,7 +64,7 @@ export default function SignIn() {
         showModal('Sign up successful!', 'success');
     };
 
-    const [ isSubmitting, setIsSubmitting ] = React.useState(false);
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
 
     const handlePress = async () => {
         setIsSubmitting(true);
@@ -81,7 +83,7 @@ export default function SignIn() {
     };
 
     return (
-        <SafeAreaView className="h-full" style={{backgroundColor: Colors.light.background}}>
+        <SafeAreaView className="h-full" style={{ backgroundColor: Colors.light.background }}>
             <ScrollView>
                 <View className="w-full px-4 my-6 justify-center h-full">
                     <Text className="font-pbold text-center text-4xl mt-[35px]">
@@ -109,7 +111,7 @@ export default function SignIn() {
                         <Checkbox
                             text="Remember me"
                             checked={isChecked}
-                            onChange={handleCheckboxChange}/>
+                            onChange={handleCheckboxChange} />
                     </View>
 
 
@@ -125,7 +127,7 @@ export default function SignIn() {
                             fullWidth
                         />
                     </View>
-
+<FontAwesome />
                     {/* Divider with "or" */}
                     <View className="flex-row items-center mt-10">
                         <View className="flex-1 h-px bg-gray-300" />
@@ -150,7 +152,7 @@ export default function SignIn() {
                     <View className="mt-16 justify-center items-center">
                         <Text className="font-pregular">
                             Don't have an account?{' '}
-                            <Text style={{color: Colors.light.primary}}>
+                            <Text style={{ color: Colors.light.primary }}>
                                 <Link href="/sign-up" className="font-pmedium">Sign Up</Link>
                             </Text>
                         </Text>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView, SafeAreaView, StatusBar, Platform } from 'react-native';
 import FormField from "@/components/FormField";
 import RadioButton from "@/components/Button/RadioButton";
 import Button from "@/components/Button/Button";
@@ -121,7 +121,11 @@ export default function SignUp() {
     };
 
     return (
-        <SafeAreaView className="h-full" style={{backgroundColor: Colors.light.background}}>
+        <SafeAreaView className="h-full" style={{ backgroundColor: Colors.light.background }}>
+            {Platform.OS === 'android' &&
+                <StatusBar backgroundColor='#fff' barStyle='light-content' />
+
+            }
             <ScrollView>
                 <View className="w-full px-4 my-6 justify-center h-full">
                     <Text className="font-pbold text-center text-4xl mt-[35px]">
@@ -215,7 +219,7 @@ export default function SignUp() {
                     <View className="mt-4 justify-center items-center">
                         <Text className="font-pregular">
                             Already have an account?{' '}
-                            <Text style={{color: Colors.light.primary}}>
+                            <Text style={{ color: Colors.light.primary }}>
                                 <Link href="/sign-in" className="font-pmedium">Sign In</Link>
                             </Text>
                         </Text>

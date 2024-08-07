@@ -9,14 +9,17 @@ interface FormFeedbackModalProps {
     onClose: () => void;
 }
 
+
+
 const FormFeedbackModal: React.FC<FormFeedbackModalProps> = ({ visible, message, type, onClose }) => {
     return (
         <Modal transparent visible={visible} animationType="slide">
-            <TouchableWithoutFeedback onPress={onClose}>
-                <View className=" flex-1 justify-end items-center">
+            <TouchableWithoutFeedback onPress={onClose} className=''>
+                <View className=" h-full  flex-col relative">
+
                     <BlurView style={{ flex: 1, width: '100%' }} intensity={6} tint="systemMaterialDark">
                         <TouchableWithoutFeedback>
-                            <View className="w-full bg-white rounded-t-lg p-5 items-center">
+                            <View className="w-full bg-white rounded-t-lg p-5 items-center absolute bottom-0">
                                 <View
                                     className={`border-2 rounded-lg p-5 items-center ${type === 'success' ? 'border-green-500' : 'border-red-500'}`}
                                 >
