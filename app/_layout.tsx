@@ -1,12 +1,13 @@
-import {SplashScreen, Stack} from "expo-router";
+import { SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font"
 import { useEffect } from "react";
+import { StatusBar } from "react-native";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
 
-    const [ fontsLoaded, error] = useFonts({
+    const [fontsLoaded, error] = useFonts({
         "SF-Pro-Regular": require("../assets/fonts/SF-Pro-Regular.ttf"),
         "SF-Pro-Bold": require("../assets/fonts/SF-Pro-Bold.ttf"),
         "SF-Pro-Thin-Italic": require("../assets/fonts/SF-Pro-Thin-Italic.ttf"),
@@ -23,28 +24,31 @@ export default function RootLayout() {
     });
 
     useEffect(() => {
-        if(error) throw error;
+        if (error) throw error;
 
-        if(fontsLoaded) SplashScreen.hideAsync();
+        if (fontsLoaded) SplashScreen.hideAsync();
     }, [fontsLoaded, error]);
 
-    if(!fontsLoaded && !error) return null;
+    if (!fontsLoaded && !error) return null;
+
+    
 
     return (
-      <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false }}>
-          </Stack.Screen>
+        <Stack>
 
-          <Stack.Screen name="(auth)" options={{ headerShown: false }}>
-          </Stack.Screen>
+            <Stack.Screen name="index" options={{ headerShown: false }}>
+            </Stack.Screen>
 
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }}>
-          </Stack.Screen>
+            <Stack.Screen name="(auth)" options={{ statusBarColor:'#fff',headerShown: false }}>
+            </Stack.Screen>
 
-          <Stack.Screen name="(search)" options={{ headerShown: false }}>
-          </Stack.Screen>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }}>
+            </Stack.Screen>
 
-      </Stack>
+            {/* <Stack.Screen name="(search)" options={{ headerShown: false }}>
+            </Stack.Screen> */}
 
-  );
+        </Stack>
+
+    );
 }

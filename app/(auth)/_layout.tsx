@@ -15,13 +15,13 @@ export default function AuthLayout() {
             <Stack.Screen
                 name="sign-up"
                 options={{
-                  headerShown: false
+                    headerShown: false
                 }}
             />
             <Stack.Screen
                 name="verify"
                 options={{
-                  headerShown: false
+                    headerShown: false
                 }}
             />
 
