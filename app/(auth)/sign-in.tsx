@@ -127,7 +127,7 @@ export default function SignIn() {
                             fullWidth
                         />
                     </View>
-<FontAwesome />
+                    <FontAwesome />
                     {/* Divider with "or" */}
                     <View className="flex-row items-center mt-10">
                         <View className="flex-1 h-px bg-gray-300" />

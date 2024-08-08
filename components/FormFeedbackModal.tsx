@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Modal, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
-import { BlurView } from 'expo-blur'; // Import from expo-blur
+import { BlurView } from 'expo-blur';
 
 interface FormFeedbackModalProps {
     visible: boolean;

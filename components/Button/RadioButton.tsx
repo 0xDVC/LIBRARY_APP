@@ -11,7 +11,7 @@ interface RadioButtonProps {
 }
 
 
-const RadioButton: React.FC<RadioButtonProps> = ({ label, value, selected, handleRadioButtonPress, color, otherStyles  }) => {
+const RadioButton: React.FC<RadioButtonProps> = ({ label, value, selected, handleRadioButtonPress, color, otherStyles }) => {
     return (
         <TouchableOpacity
             className={`flex-row space-x-2 ${otherStyles}`}

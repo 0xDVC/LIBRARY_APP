@@ -27,7 +27,7 @@ export default function TabsLayout() {
                         tabBarIcon: ({ color, focused }) => (
                             <TabIcon
                                 icon="book"
-                                name="Discover" // Ionicons name
+                                name="Discover"
                                 color={color}
                                 focused={focused}
                             />

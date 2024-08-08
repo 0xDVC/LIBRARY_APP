@@ -53,6 +53,8 @@ export default function FormField({ title, icon, placeholder, otherStyles, handl
                         />
                     </TouchableOpacity>
                 )}
+
+                
             </View>
         </View>
     );

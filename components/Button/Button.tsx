@@ -60,15 +60,15 @@ const sizeStyles: Record<ButtonSize, string> = {
 };
 
 export default function Button({
-                                   text,
-                                   variant = 'primary',
-                                   size = 'medium',
-                                   fullWidth = false,
-                                   color,
-                                   loading = false,
-                                   className = '',
-                                   ...props
-                               }: ButtonProps): React.ReactElement {
+    text,
+    variant = 'primary',
+    size = 'medium',
+    fullWidth = false,
+    color,
+    loading = false,
+    className = '',
+    ...props
+}: ButtonProps): React.ReactElement {
     const baseStyle = "rounded-lg flex items-center justify-center";
     const buttonColor = color || defaultColors[variant];
 

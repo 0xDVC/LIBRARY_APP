@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "LIBRARY_APP",
-    "slug": "LIBRARY_APP",
+    "name": "LiBRARY",
+    "slug": "LiBRARY",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/book.png",
@@ -17,14 +17,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
       "bundler": "watchman",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "output": "static"
     },
     "plugins": [
       "expo-router"
