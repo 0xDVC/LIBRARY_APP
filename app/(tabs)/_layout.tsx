@@ -14,7 +14,7 @@ export default function TabsLayout() {
                     tabBarInactiveTintColor: Colors.light.inactive,
                     tabBarStyle: {
                         backgroundColor: Colors.light.background,
-                        height: 100,
+                        height: 80,
                     },
                 }}
             >

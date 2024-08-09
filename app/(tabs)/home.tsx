@@ -30,7 +30,7 @@ export default function Home() {
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <SafeAreaView className="h-full px-4 bg-amber-50">
+            <SafeAreaView className="h-full  bg-amber-50">
                 <ScrollView>
                     <View>
                         <Text className="text-center text-2xl p-5 font-pbold">Discover</Text>
@@ -39,7 +39,7 @@ export default function Home() {
                     <SearchInput placeholder="Search by book or Library" />
 
                     <View className="w-full flex-1 pt-5 pb-8">
-                        <Text className="font-psemibold text-lg mb-2">Recommended for you</Text>
+                        <Text className="font-psemibold text-lg mb-2 mx-4">Recommended for you</Text>
 
                         <HorizontalList books={books} isLoading={isLoading} />
                     </View>
