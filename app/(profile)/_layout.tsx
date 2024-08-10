@@ -1,6 +1,14 @@
-import React from "react";
-import { View } from "react-native";
+import { Stack } from "expo-router";
 
-export default function ProfileLayout() {
-  return <View></View>;
+export default function Layout() {
+  return (
+    <Stack>
+      <Stack.Screen
+        name="user-profile"
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack>
+  );
 }
