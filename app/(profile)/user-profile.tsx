@@ -5,7 +5,6 @@ import Feather from "@expo/vector-icons/Feather";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import Fontisto from "@expo/vector-icons/Fontisto";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 export default function userProfile() {
@@ -121,16 +120,16 @@ export default function userProfile() {
         </View>
         <View className="flex-row w-full h-[4.5rem] mx-5 border-b-2 border-gray-300 my-3">
           <View className="ml-2 w-14 flex justify-center items-center">
-            <Fontisto name="date" size={24} color="black" />
+            <FontAwesome5 name="book-reader" size={24} color="black" />
           </View>
 
           <View className="pl-5 flex-1 pb-2">
             <View>
               <Text className="text-lg font-semibold text-gray-700">
-                Date of Birth
+                Reading Level
               </Text>
               <Text className="text-xl font-bold text-gray-900 mt-1">
-                01/01/2000
+                Intermediate
               </Text>
             </View>
           </View>
