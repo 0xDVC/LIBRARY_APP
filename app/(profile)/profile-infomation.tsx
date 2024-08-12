@@ -7,10 +7,12 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import Button from "@/components/Button/Button";
+import { IBookTabs } from "@/types/types";
 
 export default function ProfileInformation() {
   const { navigate } = useNavigation();
   const { back } = useRouter();
+
   return (
     <SafeAreaView className="h-full flex bg-[#6557ec] justify-between">
       <View className="mt-8 flex-row justify-between items-center relative">
@@ -47,9 +49,15 @@ export default function ProfileInformation() {
       </View>
 
       <View className="items-center h-full bg-white rounded-t-3xl mt-2 pt-5">
-        <ScrollView className="h-full w-full flex">
-          <View className="w-full h-20 flex-row px-2 justify-between gap-x-3">
-            <TouchableOpacity className="flex justify-center items-center flex-1 w-44 h-20 border border-gray-400 rounded-md">
+        <ScrollView className="w-full flex">
+          <View className="w-full h-20 flex-row px-2 justify-between gap-x-3  self-center">
+            <TouchableOpacity
+              className="flex justify-center items-center flex-1 w-44 h-20 border border-gray-400 rounded-md"
+              onPress={() =>
+                //@ts-ignore
+                navigate<IBookTabs>("user-books", { c_tab: 0 })
+              }
+            >
               <View>
                 <MaterialIcons name="favorite" size={24} color="red" />
               </View>
@@ -59,7 +67,13 @@ export default function ProfileInformation() {
                 </Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity className="flex justify-center items-center flex-1 w-44 h-20 border border-gray-400 rounded-md">
+            <TouchableOpacity
+              className="flex justify-center items-center flex-1 w-44 h-20 border border-gray-400 rounded-md"
+              onPress={() =>
+                //@ts-ignore
+                navigate<IBookTabs>("user-books", { c_tab: 1 })
+              }
+            >
               <View>
                 <FontAwesome5 name="book-reader" size={24} color="orange" />
               </View>
@@ -69,7 +83,13 @@ export default function ProfileInformation() {
                 </Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity className="flex justify-center items-center flex-1 w-44 h-20 border border-gray-400 rounded-md">
+            <TouchableOpacity
+              className="flex justify-center items-center flex-1 w-44 h-20 border border-gray-400 rounded-md"
+              onPress={() =>
+                //@ts-ignore
+                navigate<IBookTabs>("user-books", { c_tab: 2 })
+              }
+            >
               <View>
                 <Ionicons name="calendar" size={24} color="pink" />
               </View>
@@ -86,7 +106,9 @@ export default function ProfileInformation() {
             <View className="mt-5">
               <TouchableOpacity
                 className="flex-row justify-between items-center border-b border-gray-400"
-                onPress={() => navigate("user-profile")}
+                onPress={() =>
+                  (navigate as (routeName: string) => void)("user-profile")
+                }
               >
                 <View className="flex-row items-center justify-center">
                   <View className="w-12 -mt-2">
@@ -118,7 +140,9 @@ export default function ProfileInformation() {
                 </View>
 
                 <View className="ml-0 flex-row justify-center items-center gap-x-3">
-                  <Text className="text-md font-bold text-gray-500"></Text>
+                  <Text className="text-sm font-bold text-gray-500">
+                    english
+                  </Text>
                   <AntDesign name="right" size={24} color="black" />
                 </View>
               </TouchableOpacity>
