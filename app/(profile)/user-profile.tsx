@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import { Text, View, TouchableOpacity, Image, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
+import { UserProvider, useUserContext } from "@/context/userContext";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Feather from "@expo/vector-icons/Feather";
@@ -10,6 +12,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 export default function userProfile() {
   const { back } = useRouter();
+  const { userData, setUserData } = useUserContext();
   return (
     <SafeAreaView className="h-full bg-[#6557ec] flex">
       <View className="mt-8 flex-row justify-between items-center relative">

@@ -1,9 +1,15 @@
-import React from 'react';
-import { View } from "react-native";
+import React from "react";
+import { Stack } from "expo-router";
 
 export default function OnboardingLayout() {
-    return (
-        <View>
-        </View>
-    );
+  return (
+    <Stack>
+      <Stack.Screen
+        name="on-boarding"
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack>
+  );
 }

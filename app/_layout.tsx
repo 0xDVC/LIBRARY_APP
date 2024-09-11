@@ -1,6 +1,7 @@
 import { SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
+import { UserProvider } from "../context/userContext";
 import { StatusBar } from "react-native";
 
 SplashScreen.preventAutoHideAsync();
@@ -31,26 +32,33 @@ export default function RootLayout() {
   if (!fontsLoaded && !error) return null;
 
   return (
-    <Stack>
-      <Stack.Screen
-        name="index"
-        options={{ headerShown: false }}
-      ></Stack.Screen>
+    <UserProvider>
+      <Stack>
+        <Stack.Screen
+          name="index"
+          options={{ headerShown: false }}
+        ></Stack.Screen>
 
-      <Stack.Screen
-        name="(auth)"
-        options={{ statusBarColor: "#fff", headerShown: false }}
-      ></Stack.Screen>
+        <Stack.Screen
+          name="(auth)"
+          options={{ statusBarColor: "#fff", headerShown: false }}
+        ></Stack.Screen>
 
-      <Stack.Screen
-        name="(tabs)"
-        options={{ headerShown: false }}
-      ></Stack.Screen>
+        <Stack.Screen
+          name="(tabs)"
+          options={{ headerShown: false }}
+        ></Stack.Screen>
 
-      <Stack.Screen
-        name="(profile)"
-        options={{ headerShown: false }}
-      ></Stack.Screen>
-    </Stack>
+        <Stack.Screen
+          name="(profile)"
+          options={{ headerShown: false }}
+        ></Stack.Screen>
+
+        <Stack.Screen
+          name="(onboarding)"
+          options={{ headerShown: false }}
+        ></Stack.Screen>
+      </Stack>
+    </UserProvider>
   );
 }
