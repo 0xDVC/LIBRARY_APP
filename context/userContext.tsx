@@ -1,9 +1,18 @@
 import { createContext, useContext, useState, ReactNode } from "react";
-import { Text } from "react-native";
+
+import axios from "axios";
+
 interface UserData {
   username: string;
-  email: string;
-  password: string;
+  full_name: string | undefined;
+  reading_level: string;
+  email: string | undefined;
+  telephone: string | undefined;
+  language: string;
+  favorite_books: Array<string>;
+  favorite_genres: Array<string>;
+  favorite_authors: Array<string>;
+  bookmarks: Record<string, number>;
 }
 
 interface UserContextType {
@@ -23,9 +32,16 @@ export function useUserContext() {
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [userData, setUserData] = useState<UserData>({
-    username: "",
-    email: "",
-    password: "",
+    username: "xen",
+    full_name: "Fiifi Baisie Amoah",
+    reading_level: "Intermediate",
+    email: "fyfybaisieamoah6@gmail.com",
+    telephone: "233557650787",
+    language: "english",
+    favorite_books: ["Power", "Harry potter"],
+    favorite_genres: ["biology"],
+    favorite_authors: ["Attah Kay"],
+    bookmarks: {},
   });
 
   return (
