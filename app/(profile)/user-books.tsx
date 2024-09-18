@@ -1,17 +1,42 @@
 import { Text, View, TouchableOpacity, ScrollView, Image } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
+import { useUserContext } from "@/context/userContext";
 import { useRoute, RouteProp } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { LinearGradient } from "expo-linear-gradient";
 import { IBookTabs } from "@/types/types";
+import axios from "axios";
 
 export default function UserBooks() {
   const route = useRoute<RouteProp<{ params: IBookTabs }, "params">>();
   const { c_tab } = route.params;
   const [tab, setTab] = useState(c_tab);
+  const { userData } = useUserContext();
   const { back } = useRouter();
+  const [books, setBooks] = useState<any[]>([]);
+
+  const fetchBooks = async (bookId: string) => {
+    try {
+      const url = `https://hci-backend-service-sjvlpiiqva-uc.a.run.app/api/books/${bookId}`;
+
+      const response = await axios.get(url);
+
+      if (response.status === 200) {
+        setBooks((prevBooks) => [...prevBooks, response.data]);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    {
+      console.log("hello world");
+      userData.favorite_books.map((bookId) => fetchBooks(bookId));
+    }
+  }, []);
 
   return (
     <SafeAreaView className="h-full w-full bg-white flex">
@@ -69,267 +94,76 @@ export default function UserBooks() {
           </Text>
         </TouchableOpacity>
       </View>
+
       <ScrollView className="w-full h-full flex mt-2 px-4">
-        <TouchableOpacity className="h-32 w-full border border-gray-300 rounded-xl my-2 flex-row items-center px-3 shadow-custom">
-          <View className="w-24 h-24  mr-2 rounded-md">
-            <Image
-              source={require("../../assets/images/profile.jpg")}
-              className="w-24 h-24 rounded-md"
-            />
-          </View>
-          <View className="flex-1 h-24 flex ml-3">
-            <View className="flex-row justify-between">
-              <View>
-                <Text className="text-[15px] font-bold mb-1">Harry Potter</Text>
-                <Text className="text-[13px] font-bold text-gray-500">
-                  Neil Ohene
-                </Text>
-              </View>
+        {tab === 0 && (
+          <View>
+            {books.map((book, index) => (
+              <TouchableOpacity
+                key={index}
+                className="h-32 w-full border border-gray-300 rounded-xl my-2 flex-row items-center px-3 shadow-custom"
+              >
+                <View className="w-24 h-24  mr-2 rounded-md">
+                  <Image
+                    source={{ uri: book.imageLinks.thumbnail }}
+                    // source={require("../../assets/images/profile.jpg")}
+                    className="w-24 h-24 rounded-md"
+                  />
+                </View>
+                <View className="flex-1 h-24 flex ml-3">
+                  <View className="flex-row justify-between">
+                    <View>
+                      <Text className="text-[15px] font-bold mb-1">
+                        {book.title.length > 15
+                          ? book.title.slice(0, 18) + "..."
+                          : book.title}
+                      </Text>
+                      <Text className="text-[13px] font-bold text-gray-500">
+                        {book.authors[0]}
+                      </Text>
+                    </View>
 
-              <View>
-                <Text className="text-[12px] font-bold text-gray-500">
-                  Rating
-                </Text>
-                <Text className="text-[13px] font-black text-red-500">4.5</Text>
-              </View>
-            </View>
-            <View className="mt-2 h-3  bg-[#8080802a] rounded-lg">
-              <LinearGradient
-                colors={["#6557ec", "#2B5CD4"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={{ width: "50%", height: "100%", borderRadius: 8 }}
-              />
-            </View>
-            <View className="mt-2 flex-row justify-between">
-              <View>
-                <Text className="text-[10px] font-bold text-gray-500">
-                  Last Read
-                </Text>
-                <Text className="text-[12px] font-bold text-gray-900">
-                  12 November 2024
-                </Text>
-              </View>
+                    <View>
+                      <Text className="text-[12px] font-bold text-gray-500">
+                        Rating
+                      </Text>
+                      <Text className="text-[13px] font-black text-red-500">
+                        {book.averageRating ? book.averageRating : "unknown"}
+                      </Text>
+                    </View>
+                  </View>
+                  <View className="mt-2 h-3  bg-[#8080802a] rounded-lg">
+                    <LinearGradient
+                      colors={["#6557ec", "#2B5CD4"]}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 0 }}
+                      style={{ width: "50%", height: "100%", borderRadius: 8 }}
+                    />
+                  </View>
+                  <View className="mt-2 flex-row justify-between">
+                    <View>
+                      <Text className="text-[10px] font-bold text-gray-500">
+                        Published Date
+                      </Text>
+                      <Text className="text-[12px] font-bold text-gray-900">
+                        {book.publishedDate ? book.publishedDate : "unknown"}
+                      </Text>
+                    </View>
 
-              <View>
-                <Text className="text-[12px] font-bold text-gray-500">
-                  Pages
-                </Text>
-                <Text className="text-[13px] font-black  text-yellow-500">
-                  120
-                </Text>
-              </View>
-            </View>
+                    <View>
+                      <Text className="text-[12px] font-bold text-gray-500">
+                        Pages
+                      </Text>
+                      <Text className="text-[13px] font-black  text-yellow-500">
+                        {book.pageCount}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            ))}
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity className="h-32 w-full border border-gray-300 rounded-xl my-2 flex-row items-center px-3 shadow-custom">
-          <View className="w-24 h-24  mr-2 rounded-md">
-            <Image
-              source={require("../../assets/images/profile.jpg")}
-              className="w-24 h-24 rounded-md"
-            />
-          </View>
-          <View className="flex-1 h-24 flex ml-3">
-            <View className="flex-row justify-between">
-              <View>
-                <Text className="text-[15px] font-bold mb-1">Harry Potter</Text>
-                <Text className="text-[13px] font-bold text-gray-500">
-                  Neil Ohene
-                </Text>
-              </View>
-
-              <View>
-                <Text className="text-[12px] font-bold text-gray-500">
-                  Rating
-                </Text>
-                <Text className="text-[13px] font-black text-red-500">4.5</Text>
-              </View>
-            </View>
-            <View className="mt-2 h-3  bg-[#8080802a] rounded-lg">
-              <LinearGradient
-                colors={["#6557ec", "#2B5CD4"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={{ width: "50%", height: "100%", borderRadius: 8 }}
-              />
-            </View>
-            <View className="mt-2 flex-row justify-between">
-              <View>
-                <Text className="text-[10px] font-bold text-gray-500">
-                  Last Read
-                </Text>
-                <Text className="text-[12px] font-bold text-gray-900">
-                  12 November 2024
-                </Text>
-              </View>
-
-              <View>
-                <Text className="text-[12px] font-bold text-gray-500">
-                  Pages
-                </Text>
-                <Text className="text-[13px] font-black  text-yellow-500">
-                  120
-                </Text>
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity className="h-32 w-full border border-gray-300 rounded-xl my-2 flex-row items-center px-3 shadow-custom">
-          <View className="w-24 h-24  mr-2 rounded-md">
-            <Image
-              source={require("../../assets/images/profile.jpg")}
-              className="w-24 h-24 rounded-md"
-            />
-          </View>
-          <View className="flex-1 h-24 flex ml-3">
-            <View className="flex-row justify-between">
-              <View>
-                <Text className="text-[15px] font-bold mb-1">Harry Potter</Text>
-                <Text className="text-[13px] font-bold text-gray-500">
-                  Neil Ohene
-                </Text>
-              </View>
-
-              <View>
-                <Text className="text-[12px] font-bold text-gray-500">
-                  Rating
-                </Text>
-                <Text className="text-[13px] font-black text-red-500">4.5</Text>
-              </View>
-            </View>
-            <View className="mt-2 h-3  bg-[#8080802a] rounded-lg">
-              <LinearGradient
-                colors={["#6557ec", "#2B5CD4"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={{ width: "50%", height: "100%", borderRadius: 8 }}
-              />
-            </View>
-            <View className="mt-2 flex-row justify-between">
-              <View>
-                <Text className="text-[10px] font-bold text-gray-500">
-                  Last Read
-                </Text>
-                <Text className="text-[12px] font-bold text-gray-900">
-                  12 November 2024
-                </Text>
-              </View>
-
-              <View>
-                <Text className="text-[12px] font-bold text-gray-500">
-                  Pages
-                </Text>
-                <Text className="text-[13px] font-black  text-yellow-500">
-                  120
-                </Text>
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity className="h-32 w-full border border-gray-300 rounded-xl my-2 flex-row items-center px-3 shadow-custom">
-          <View className="w-24 h-24  mr-2 rounded-md">
-            <Image
-              source={require("../../assets/images/profile.jpg")}
-              className="w-24 h-24 rounded-md"
-            />
-          </View>
-          <View className="flex-1 h-24 flex ml-3">
-            <View className="flex-row justify-between">
-              <View>
-                <Text className="text-[15px] font-bold mb-1">Harry Potter</Text>
-                <Text className="text-[13px] font-bold text-gray-500">
-                  Neil Ohene
-                </Text>
-              </View>
-
-              <View>
-                <Text className="text-[12px] font-bold text-gray-500">
-                  Rating
-                </Text>
-                <Text className="text-[13px] font-black text-red-500">4.5</Text>
-              </View>
-            </View>
-            <View className="mt-2 h-3  bg-[#8080802a] rounded-lg">
-              <LinearGradient
-                colors={["#6557ec", "#2B5CD4"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={{ width: "50%", height: "100%", borderRadius: 8 }}
-              />
-            </View>
-            <View className="mt-2 flex-row justify-between">
-              <View>
-                <Text className="text-[10px] font-bold text-gray-500">
-                  Last Read
-                </Text>
-                <Text className="text-[12px] font-bold text-gray-900">
-                  12 November 2024
-                </Text>
-              </View>
-
-              <View>
-                <Text className="text-[12px] font-bold text-gray-500">
-                  Pages
-                </Text>
-                <Text className="text-[13px] font-black  text-yellow-500">
-                  120
-                </Text>
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity className="h-32 w-full border border-gray-300 rounded-xl my-2 flex-row items-center px-3 shadow-custom">
-          <View className="w-24 h-24  mr-2 rounded-md">
-            <Image
-              source={require("../../assets/images/profile.jpg")}
-              className="w-24 h-24 rounded-md"
-            />
-          </View>
-          <View className="flex-1 h-24 flex ml-3">
-            <View className="flex-row justify-between">
-              <View>
-                <Text className="text-[15px] font-bold mb-1">Harry Potter</Text>
-                <Text className="text-[13px] font-bold text-gray-500">
-                  Neil Ohene
-                </Text>
-              </View>
-
-              <View>
-                <Text className="text-[12px] font-bold text-gray-500">
-                  Rating
-                </Text>
-                <Text className="text-[13px] font-black text-red-500">4.5</Text>
-              </View>
-            </View>
-            <View className="mt-2 h-3  bg-[#8080802a] rounded-lg">
-              <LinearGradient
-                colors={["#6557ec", "#2B5CD4"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={{ width: "50%", height: "100%", borderRadius: 8 }}
-              />
-            </View>
-            <View className="mt-2 flex-row justify-between">
-              <View>
-                <Text className="text-[10px] font-bold text-gray-500">
-                  Last Read
-                </Text>
-                <Text className="text-[12px] font-bold text-gray-900">
-                  12 November 2024
-                </Text>
-              </View>
-
-              <View>
-                <Text className="text-[12px] font-bold text-gray-500">
-                  Pages
-                </Text>
-                <Text className="text-[13px] font-black  text-yellow-500">
-                  120
-                </Text>
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

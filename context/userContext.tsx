@@ -38,7 +38,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     email: "fyfybaisieamoah6@gmail.com",
     telephone: "233557650787",
     language: "english",
-    favorite_books: ["Power", "Harry potter"],
+    favorite_books: ["wrOQLV6xB-wC"],
     favorite_genres: ["biology"],
     favorite_authors: ["Attah Kay"],
     bookmarks: {},

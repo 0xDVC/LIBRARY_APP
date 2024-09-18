@@ -1,5 +1,7 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link, useNavigation, useRouter } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
+import { useUserContext } from "@/context/userContext";
+import { Dropdown } from "react-native-element-dropdown";
 import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -8,10 +10,19 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import Button from "@/components/Button/Button";
 import { IBookTabs } from "@/types/types";
+import { useState } from "react";
 
 export default function ProfileInformation() {
   const { navigate } = useNavigation();
+  const { userData } = useUserContext();
   const { back } = useRouter();
+  const [lang, setLang] = useState(userData.language);
+
+  const Languages = [
+    { label: "english", value: "english" },
+    { label: "french", value: "french" },
+    { label: "german", value: "german" },
+  ];
 
   return (
     <SafeAreaView className="h-full flex bg-[#6557ec] justify-between">
@@ -40,7 +51,9 @@ export default function ProfileInformation() {
               className="w-28 h-28 rounded-full"
             />
           </View>
-          <Text className="font-bold text-xl text-white mt-3">Hawi</Text>
+          <Text className="font-bold text-xl text-white mt-3">
+            {userData.username}
+          </Text>
         </View>
 
         <View className="flex-1 h-44 flex-row justify-center items-center">
@@ -127,7 +140,7 @@ export default function ProfileInformation() {
               </TouchableOpacity>
             </View>
             <View className="mt-2">
-              <TouchableOpacity className="flex-row justify-between items-center border-b border-gray-400">
+              <View className="flex-row justify-between items-center border-b border-gray-400">
                 <View className="flex-row items-center justify-center">
                   <View className="w-12 ">
                     <Ionicons name="language-outline" size={30} color="black" />
@@ -139,13 +152,18 @@ export default function ProfileInformation() {
                   </View>
                 </View>
 
-                <View className="ml-0 flex-row justify-center items-center gap-x-3">
-                  <Text className="text-sm font-bold text-gray-500">
-                    english
-                  </Text>
-                  <AntDesign name="right" size={24} color="black" />
+                <View className="flex-1 ml-20">
+                  <Dropdown
+                    data={Languages}
+                    value={lang}
+                    labelField={"value"}
+                    valueField={"value"}
+                    onChange={(item) => {
+                      setLang(item.value);
+                    }}
+                  />
                 </View>
-              </TouchableOpacity>
+              </View>
             </View>
             <View className="mt-2">
               <TouchableOpacity className="flex-row justify-between items-center border-b border-gray-400">
