@@ -10,6 +10,9 @@ import {
   Easing,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { Alert } from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
 import { Dropdown } from "react-native-element-dropdown";
 import { useUserContext } from "@/context/userContext";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
@@ -22,6 +25,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Animated } from "react-native";
+import { Buffer } from "buffer";
 
 const reading_level = [
   { label: "Beginner", value: "Beginner" },
@@ -37,6 +41,7 @@ export default function userProfile() {
   const username = userData.username;
   const [isLoadingSave, setIsLoadingSave] = useState(false);
   const [isLoadingCancel, setIsLoadingCancel] = useState(false);
+  const [isLoadingProfile, setIsLoadingProfile] = useState(false);
 
   const [new_username, setUsername] = useState(userData.username);
   const [fullName, setFullName] = useState(userData.full_name);
@@ -44,6 +49,7 @@ export default function userProfile() {
   const [email, setEmail] = useState(userData.email);
   const [telephone, setTelephone] = useState(userData.telephone);
   const [language, setLanguage] = useState(userData.language);
+  const [profile, setProfile] = useState<string>("");
 
   const rotateValue = useRef(new Animated.Value(0)).current;
 
@@ -54,6 +60,91 @@ export default function userProfile() {
 
   const rotateStyle = {
     transform: [{ rotate: rotateInterpolate }],
+  };
+
+  const handleImageUpload = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("Permission to access camera roll is required!");
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setIsLoadingProfile(true);
+      try {
+        const uri = result.assets[0].uri;
+
+        const base64 = await FileSystem.readAsStringAsync(uri, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
+
+        const formData = new FormData();
+        formData.append("profile_picture", {
+          uri: `data:image/jpeg;base64,${base64}`,
+          type: "image/jpeg",
+          name: "profile_picture.jpg",
+        });
+
+        const response = await axios.put(
+          `https://hci-backend-service-sjvlpiiqva-uc.a.run.app/api/users/ProfilePicture/update/${username}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            transformRequest: (data, Headers) => {
+              return formData;
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          setProfile(uri);
+          Alert.alert(
+            "Success",
+            "Profile picture uploaded successfully",
+            [{ text: "OK", onPress: () => console.log("") }],
+            { cancelable: false }
+          );
+        }
+
+        setIsLoadingProfile(false);
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        setIsLoadingProfile(false);
+        alert("Failed to upload image. Please try again.");
+      }
+    }
+  };
+
+  const fetchUserProfile = async (username: string) => {
+    setIsLoadingProfile(true);
+    try {
+      const url = `https://hci-backend-service-sjvlpiiqva-uc.a.run.app/api/users/ProfilePicture/${username}`;
+      const response = await axios.get(url);
+
+      if (response.status === 200) {
+        const _buffer = response.data.Profile_pic_Buffer.data;
+        const base64String = Buffer.from(_buffer).toString("base64");
+        setProfile(`data:image/png;base64,${base64String}`);
+        setIsLoadingProfile(false);
+      }
+
+      if (response.status === 404) {
+      }
+    } catch (e) {
+      console.log(e);
+      setIsLoadingProfile(false);
+    }
   };
 
   const saveUserData = async () => {
@@ -89,6 +180,10 @@ export default function userProfile() {
       setIsLoadingSave(false);
     }
   };
+
+  useEffect(() => {
+    fetchUserProfile(username);
+  }, []);
 
   useEffect(() => {
     const spin = Animated.loop(
@@ -130,10 +225,29 @@ export default function userProfile() {
           </View>
           <View className="flex items-center justify-center">
             <View className="flex justify-center items-center w-28 h-28 border-4 border-green-400 rounded-full">
-              <Image
-                source={require("../../assets/images/profile.jpg")}
-                className="w-28 h-28 rounded-full"
-              />
+              {isLoadingProfile ? (
+                <Animated.View style={rotateStyle}>
+                  <FontAwesome5 name="spinner" size={24} color="white" />
+                </Animated.View>
+              ) : (
+                <View>
+                  {profile ? (
+                    <Image
+                      source={{ uri: profile }}
+                      className="w-28 h-28 rounded-full"
+                    />
+                  ) : (
+                    <View className="flex-row justify-center items-center h-full w-full bg-blue-400 rounded-full">
+                      <Text className="font-black text-white text-4xl">
+                        {username
+                          .split(" ")
+                          .map((word) => word[0])
+                          .join("")}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              )}
             </View>
             <Text className="font-bold text-xl text-white mt-3">
               {userData.username}
@@ -141,7 +255,7 @@ export default function userProfile() {
           </View>
           <View className="flex-1 h-44 flex-row justify-center items-center">
             <View className="flex justify-center items-center w-10 h-10 rounded-full border-2 border-white bg-white">
-              <TouchableOpacity>
+              <TouchableOpacity onPress={handleImageUpload}>
                 <Feather name="camera" size={22} color="black" />
               </TouchableOpacity>
             </View>

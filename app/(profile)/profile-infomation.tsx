@@ -10,11 +10,18 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import Button from "@/components/Button/Button";
 import { IBookTabs } from "@/types/types";
-import { useState } from "react";
+import { Animated, Easing } from "react-native";
+import { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { Buffer } from "buffer";
 
 export default function ProfileInformation() {
   const { navigate } = useNavigation();
   const { userData } = useUserContext();
+
+  // Move all hooks to the top level
+  const [isLoadingProfile, setIsLoadingProfile] = useState(false);
+  const [profile, setProfile] = useState("");
   const { back } = useRouter();
   const [lang, setLang] = useState(userData.language);
 
@@ -23,6 +30,55 @@ export default function ProfileInformation() {
     { label: "french", value: "french" },
     { label: "german", value: "german" },
   ];
+
+  const fetchUserProfile = async (username: string) => {
+    setIsLoadingProfile(true);
+    try {
+      const url = `https://hci-backend-service-sjvlpiiqva-uc.a.run.app/api/users/ProfilePicture/${username}`;
+      const response = await axios.get(url);
+
+      if (response.status === 200) {
+        const _buffer = response.data.Profile_pic_Buffer.data;
+        const base64String = Buffer.from(_buffer).toString("base64");
+        setProfile(`data:image/png;base64,${base64String}`);
+        setIsLoadingProfile(false);
+      }
+
+      if (response.status === 404) {
+        setIsLoadingProfile(false);
+      }
+    } catch (e) {
+      console.log(e);
+      setIsLoadingProfile(false);
+    }
+  };
+
+  const rotateValue = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    fetchUserProfile(userData.username);
+  }, []);
+
+  useEffect(() => {
+    const spin = Animated.loop(
+      Animated.timing(rotateValue, {
+        toValue: 1,
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      })
+    );
+    spin.start();
+  }, [rotateValue]);
+
+  const rotateInterpolate = rotateValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "360deg"],
+  });
+
+  const rotateStyle = {
+    transform: [{ rotate: rotateInterpolate }],
+  };
 
   return (
     <SafeAreaView className="h-full flex bg-[#6557ec] justify-between">
@@ -46,10 +102,29 @@ export default function ProfileInformation() {
 
         <View className="flex items-center justify-center">
           <View className="flex justify-center items-center w-28 h-28 border-4 border-green-400 rounded-full">
-            <Image
-              source={require("../../assets/images/profile.jpg")}
-              className="w-28 h-28 rounded-full"
-            />
+            {isLoadingProfile ? (
+              <Animated.View style={rotateStyle}>
+                <FontAwesome5 name="spinner" size={24} color="white" />
+              </Animated.View>
+            ) : (
+              <View>
+                {profile ? (
+                  <Image
+                    source={{ uri: profile }}
+                    className="w-28 h-28 rounded-full"
+                  />
+                ) : (
+                  <View className="flex-row justify-center items-center h-full w-full bg-blue-400 rounded-full">
+                    <Text className="font-black text-white text-4xl">
+                      {userData.username
+                        .split(" ")
+                        .map((word) => word[0])
+                        .join("")}
+                    </Text>
+                  </View>
+                )}
+              </View>
+            )}
           </View>
           <Text className="font-bold text-xl text-white mt-3">
             {userData.username}
